@@ -1,12 +1,12 @@
 const bcrypt=require("bcrypt")
 const User=require("../model/Schema")
 const jwt=require("jsonwebtoken")
+const generatetoken=require("../middleware/createtoken")
 const login1=(req,res)=>{
     res.status(200).json({message:"get method from user "})
 }
 
-const login2=async (req,res)=>{
-    const secretkey=process.env.secretkey
+const login2=async (req,res,next)=>{
     try{
    const {name,password}=req.body
    if(!name || !password){
@@ -18,17 +18,13 @@ const login2=async (req,res)=>{
    }
     const check= await bcrypt.compare(password,user.password)
     if(!check){
-        return res.status(200).json({message:"password is not matched"})
+        return res.status(400).json({message:"password is not matched"})
     }
-    const token=jwt.sign({name,password},secretkey,{expiresIn:"10sec"})
-    return res.status(200).json({message:"token created successfully",
-        token
-    })
-
-
+   req.user=user
+   next()
 }
   catch(err){
-    return res.status(500).json({message:err.message})
+    return res.status(500).json({message:"not getting"})
   }
     
 }
