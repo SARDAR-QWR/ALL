@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 350px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .info {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .btn {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      background: #ff4d4d;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background: #e63c3c;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Profile</h2>
+
+    <div class="info">Name: <span id="name">Loading...</span></div>
+    <div class="info">Email: <span id="email">Loading...</span></div>
+
+    <button class="btn" onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    const token = localStorage.getItem("token");
+
+    // If no token → redirect to login
+    if (!token) {
+      window.location.href = "login.html";
+    }
+
+    async function getProfile() {
+      try {
+        const res = await fetch("http://localhost:7000/profile", {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + token
+          }
+        });
+
+        const data = await res.json();
+
+        if (res.status === 200) {
+          document.getElementById("name").innerText = data.user.name;
+          document.getElementById("email").innerText = data.user.email;
+        } else {
+          alert(data.message);
+          logout();
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("token");
+      window.location.href = "login.html";
+    }
+
+    getProfile();
+  </script>
+
+</body>
+</html>

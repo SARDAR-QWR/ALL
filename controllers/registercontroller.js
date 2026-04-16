@@ -7,14 +7,13 @@ const register1=(req,res)=>{
 
 const register2=async (req,res)=>{
     try{
-    const {name,age,password}=req.body;
+    const {name,password}=req.body;
     if(!name || !password){
-        return res.status(400).jon({message:"provide all fields"})
+        return res.status(400).json({message:"provide all fields"})
     }
     const hashpass=await bcrypt.hash(password,10)
     const newuser=new User({
         name,
-        age,
         password:hashpass
     })
     await newuser.save();

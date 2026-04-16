@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 320px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: #4facfe;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background: #4facfe;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background: #3b8de3;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: #4facfe;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Register</h2>
+
+    <form id="form">
+      <div class="input-group">
+        <label>Name</label>
+        <input type="text" placeholder="Enter your name"  id ="name"required />
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" placeholder="Enter your email" required />
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" placeholder="Enter password" id="password" required />
+      </div>
+
+      <div class="input-group">
+        <label>Confirm Password</label>
+        <input type="password" placeholder="Confirm password" required />
+      </div>
+
+      <button class="btn" type="submit">Register</button>
+    </form>
+
+    <div class="footer">
+      Already have an account? <a href="http://127.0.0.1:5500/frontend/login.html">Login</a>
+    </div>
+  </div>
+  <script>
+  var a=document.getElementById("name")
+  var b=document.getElementById("password")
+  var c=document.getElementById("form")
+  c.addEventListener("submit",async (e)=>{
+    var name=a.value
+    var password=b.value
+    e.preventDefault()
+    const data=await fetch("http://localhost:7000/aa/bc/b",{
+        method:"post",
+        headers:{
+            "Content-type":"application/json"
+        },
+        body:JSON.stringify({
+           name,
+           password
+        })
+    })
+    const res=await data.json()
+    console.log(res)
+  })
+  </script>
+</body>
+</html>
